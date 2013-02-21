@@ -13,9 +13,9 @@ This plugin integrates eFront with Wordpress. Promote your eFront content throug
 
 [eFront](http://www.efrontlearning.net/ "Enterprise Learning Management System Software") is a robust learning platform, bundled with key enterprise functionality ranging from branch management to tailor-made reports. We have worked with hundreds of organizations to shape a product that meet the training needs of modern enterprises.
 
-Read more about TalentLMS in:
+Read more about eFront in:
 
-* [eFront – blog](http://blog.efrontlearning.net/ "eFront – blog")
+* [eFront - blog](http://blog.efrontlearning.net/ "eFront - blog")
 
 ## Plugin Features ##
 
