@@ -15,30 +15,26 @@
 
 /* Register administration menu */
 function register_admininstartion_pages() {
-	global $efront_admin_page;
+	global $ef_admin_page, $ef_options_page, $ef_css_page;
 
-	$efront_admin_page = add_menu_page(__('eFront'), __('eFront'), 'manage_options', 'efront', 'efront_admin');
-	$templateMenu = add_submenu_page('efront', __('eFront Options'), __('eFront Options'), 'manage_options', 'efront-options', 'efront_options');
-	$cssMenu = add_submenu_page('efront', __('Edit eFront CSS'), __('Edit eFront CSS'), 'manage_options', 'efront-edit-css', 'efront_edit_css');
+	$ef_admin_page = add_menu_page(__('eFront'), __('eFront'), 'manage_options', 'efront', 'efront_admin');
+	$ef_options_page = add_submenu_page('efront', __('eFront Options'), __('eFront Options'), 'manage_options', 'efront-options', 'efront_options');
+	$ef_css_page = add_submenu_page('efront', __('Edit eFront CSS'), __('Edit eFront CSS'), 'manage_options', 'efront-edit-css', 'efront_edit_css');
 
-	add_action("admin_print_scripts-$efront_admin_page", 'enqueue_js_scripts');
+	add_action("admin_print_scripts-$ef_options_page", 'enqueue_js_scripts');
 }
 
 add_action('admin_menu', 'register_admininstartion_pages');
 
-function efront_help($contextual_help, $screen_id, $screen) {
-
-	global $efront_admin_page;
-
+function ef_help($contextual_help, $screen_id, $screen) {
+	global $ef_admin_page, $ef_options_page, $ef_css_page;
+	
 	include (_BASEPATH_ . '/admin/pages/help.php');
-
 }
-
-add_filter('contextual_help', 'efront_help', 10, 3);
+add_filter('contextual_help', 'ef_help', 10, 3);
 
 function enqueue_js_scripts() {
-	//    wp_enqueue_script('jquery-ui-core');
-	//    wp_enqueue_script('jquery-ui-progressbar');
+	wp_enqueue_script('ef-admin', _BASEURL_ . 'js/ef-admin.js', false, '1.0');
 }
 
 function efront_admin() {
@@ -67,6 +63,12 @@ function efront_admin() {
 			}
 		}
 	}
+	
+	if ($_POST['action'] == "ef-cache") {
+		ef_empty_cache();
+		$action_status = "updated";
+		$action_message = _('Cache cleared successfully');
+	}	
 
 	include (_BASEPATH_ . '/admin/pages/efront_admin.php');
 }
@@ -88,10 +90,10 @@ function efront_options() {
 			} else {
 				$action_status = "error";
 				$action_message = _('Items per page must be a positive number.');
-				
+
 				update_option('ef-catalog-pagination-per-page', '');
 				update_option('ef-catalog-pagination-top', false);
-				update_option('ef-catalog-pagination-bottom', false);				
+				update_option('ef-catalog-pagination-bottom', false);
 			}
 		} else {
 			update_option('ef-catalog-pagination-per-page', '');

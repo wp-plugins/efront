@@ -40,5 +40,20 @@
             <input class="button-primary" type="submit" name="Submit" value="<?php _e('Submit' ) ?>" />
             &nbsp;<span class="description"><?php _e("Submitting any changes will force the cache to be cleared"); ?></span>
         </p>        
-    </form>	
+    </form>
+    
+    <h3><?php _e('Cache control'); ?></h3>
+    <form name="ef-cache-form" method="post" action="<?php echo admin_url('admin.php?page=efront'); ?>">
+        <input type="hidden" name="action" value="ef-cache">
+        <table class="form-table">
+            <tr>
+                <th scope="row" class="form-field" style="width: 30em;">
+                    <?php _e('Clearing the cache will force contacting your eFront domain'); ?>
+                </th>
+                <td class="form-field">
+                    <input class="button-secondary" type="submit" name="Clear cache" value="<?php _e('Clear cache' ) ?>" style="width: 8.5em;" />
+                </td>
+            </tr>
+        </table>
+    </form>    
 </div>
