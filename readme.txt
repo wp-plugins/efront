@@ -45,7 +45,8 @@ Alternatively you can automatically install eFront WordPress plugin from the Wor
 * You must update your permalinks to use "Custom Structure" or if your using WordPress 3.3 and above you can use the "Post name" option just as long as you have `/%postname%/` at the end of the url.
 * Login to eFront widget : Use this widget to login to your eFront domain
 * Use the shortcodes:
-* `[eFront-catalog]` : to list your eFront courses
+* `[efront-catalog]` : to list your eFront courses
+* `[efront-signup]` : to have a signup form for new users to eFront
 
 == Frequently Asked Questions ==
 
@@ -85,6 +86,12 @@ Here are some screenshots of the eFront WordPress plugin.
 
 == Changelog ==
 
+= 2.0 =
+
+* Signup shortcode
+* Buy courses/lessons
+* Get free courses/lessons
+
 = 1.0 (Initial release) =
 
 * Administration Panel for eFront management
@@ -93,3 +100,11 @@ Here are some screenshots of the eFront WordPress plugin.
 * Caching
 
 == Upgrade Notice ==
+
+= 2.0 =
+
+* Updated admin panel
+* Updated CSS
+* Updated eFront API PHP Library
+* Signup shortcode added
+* Redirection to eFront fixed

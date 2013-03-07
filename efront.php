@@ -3,13 +3,13 @@
  Plugin Name: eFront
  Plugin URI:
  Description: This plugin integrates <a href="http://www.efrontlearning.net/">eFront</a> with Wordpress. Promote your eFront content through your WordPress site.
- Version: 1.0
+ Version: 2.0
  Author: Vasilis Proutzos / Epignosis LTD
  Author URI: http://www.efrontlearning.net/
  License: GPL2
  */
 
-define("_VERSION_", "1.0");
+define("_VERSION_", "2.0");
 define("_BASEPATH_", dirname(__FILE__));
 define("_BASEURL_", plugin_dir_url(__FILE__));
 
@@ -45,7 +45,11 @@ function install() {
 	update_option('ef-catalog-pagination-bottom', true);
 	update_option('ef-catalog-pagination-per-page', 10);
 
+	/* Singup configuration*/
+	update_option('ef-post-signup', 'stay');
+	
 	ef_setup_catalog_page();
+	ef_setup_signup_page();
 }
 
 register_activation_hook(__FILE__, 'install');
@@ -64,8 +68,12 @@ function uninstall() {
 	delete_option('ef-catalog-pagination-bottom');
 	delete_option('ef-catalog-pagination-per-page');
 
+	/* Singup configuration*/
+	delete_option('ef-post-signup');
+	
 	ef_delete_catalog_page();
-
+	ef_delete_signup_page();
+	
 	ef_db_drop();
 }
 
@@ -129,4 +137,65 @@ function ef_delete_catalog_page() {
 	delete_option("ef_catalog_page_title");
 	delete_option("ef_catalog_page_name");
 	delete_option("ef_catalog_page_id");
+}
+
+
+function ef_setup_signup_page() {
+	global $wpdb;
+
+	$the_page_title = 'Signup';
+	$the_page_name = 'signup';
+
+	// the menu entry...
+	delete_option("ef_signup_page_title");
+	add_option("ef_signup_page_title", $the_page_title, '', 'yes');
+	// the slug...
+	delete_option("ef_signup_page_name");
+	add_option("ef_signup_page_name", $the_page_name, '', 'yes');
+	// the id...
+	delete_option("ef_signup_page_id");
+	add_option("ef_signup_page_id", '0', '', 'yes');
+
+	$the_page = get_page_by_title($the_page_title);
+
+	if (!$the_page) {
+		// Create post object
+		$_p = array();
+		$_p['post_title'] = $the_page_title;
+		$_p['post_content'] = "[efront-signup]";
+		$_p['post_status'] = 'publish';
+		$_p['post_type'] = 'page';
+		$_p['comment_status'] = 'closed';
+		$_p['ping_status'] = 'closed';
+		$_p['post_category'] = array(1);
+
+		// Insert the post into the database
+		$the_page_id = wp_insert_post($_p);
+
+	} else {
+		$the_page_id = $the_page -> ID;
+		//make sure the page is not trashed...
+		$the_page -> post_status = 'publish';
+		$the_page_id = wp_update_post($the_page);
+	}
+
+	delete_option('ef_signup_page_id');
+	add_option('ef_signup_page_id', $the_page_id);
+}
+
+function ef_delete_signup_page() {
+	global $wpdb;
+
+	$the_page_title = get_option("ef_signup_page_title");
+	$the_page_name = get_option("ef_signup_page_name");
+
+	//  the id of our page...
+	$the_page_id = get_option('ef_signup_page_id');
+	if ($the_page_id) {
+		wp_delete_post($the_page_id);
+		// this will trash, not delete
+	}
+	delete_option("ef_signup_page_title");
+	delete_option("ef_signup_page_name");
+	delete_option("ef_signup_page_id");
 }
