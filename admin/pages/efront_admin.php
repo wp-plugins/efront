@@ -17,6 +17,7 @@
                 </th>
                 <td class="form-field form-required <?php echo $domain_validation; ?>">
                     <input id="ef-domain" name="ef-domain" style="width: 25em;" value="<?php echo get_option('efront-domain'); ?>" />
+                	<span class="description"><?php _e("eFront Domain should not contain http:// or a trailing slash (/)"); ?></span>
                 </td>
             </tr>
             <tr>

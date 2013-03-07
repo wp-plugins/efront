@@ -6,13 +6,30 @@ if (intval($course -> general_info -> price -> value)) {
 }
 
 $output .= "<div style='text-align: right'>";
-$output .= "<a href='javascript:history.go(-1);'>" . _('Go Back') . "</a>";
+session_start();
+if(!$_SESSION['ef-user-login'] && !$_SESSION['ef-user-password']){
+	$output .= "<a id='ef-dialog-open' class='btn' href='javascript:void(0);'>" . __('Login to get this course') . "</a> " . _('or') . " <a href='javascript:history.go(-1);'>" . _('Go Back') . "</a>";
+} else {
+	if ($course -> general_info -> price -> value == 0){
+		if(ef_user_has_course($token, $_SESSION['ef-user-login'], $_GET['course'])){
+			$user_autologin_key = eFront_User::getAutologinKey($token, $_SESSION['ef-user-login']);
+			$course_lessons = eFront_Course::getCourseLessons($token, $_GET['course']);
+			$output .= "<a target='_blank' href='" . get_option('efront-domain') . '/index.php?autologin='.$user_autologin_key->autologin_key.'&lessons_ID='.$course_lessons->lessons->lesson[0]->id . "'>" . __('Take course') . "</a> " . _('or') . " <a href='javascript:history.go(-1);'>" . _('Go Back') . "</a>";
+		} else {
+			$output .= "<a id='ef-get-course' href='javascript:void(0);'>" . __('Get this course') . "</a> " . _('or') . " <a href='javascript:history.go(-1);'>" . _('Go Back') . "</a>";;
+		}
+	} else {
+		$paypal_url = eFront_Course::buyCourse($token, $_GET['course'], $_SESSION['ef-user-login']);
+		$output .= "<a target='_blank' href='".urldecode($paypal_url)."'>" . __('Buy this course') . "</a> " . _('or') . " <a href='javascript:history.go(-1);'>" . _('Go Back') . "</a>";
+	}
+}
 $output .= "</div>";
 
 $output .= "<h3>" . _('Information') . "</h3>";
 
 $output .= "<table>";
 $output .= "<tbody>";
+
 if ($course -> general_info -> info -> general_description) {
 	$output .= "<tr>";
 	$output .= "<th>" . _('General Description') . "</th>";
@@ -152,4 +169,6 @@ foreach ($course_lessons->lessons->lesson as $lesson) {
 	$output .= "<a class='ef-internal' href='#ef-lesson-nav'>" .__('Back to Top'). "</a>";
 	$output .= "</div>";
 }
+
+include (_BASEPATH_ . '/templates/login-dialog.php');
 ?>

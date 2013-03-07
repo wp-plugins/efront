@@ -92,6 +92,29 @@
         		</td>
         	</tr>            
 		</table>
+		
+        <h3><?php _e('Signup Page: '); ?></h3>
+        <table class="form-table">
+            <tr>
+                <th scope="row" class="form-field">
+                    <label><?php _e('After a user signs up: '); ?></label>
+                </th>
+                <td class="form-field">
+                    <?php if(get_option('ef-post-signup') == 'redirect'): ?>
+                        <input type="radio" name="post-signup" value="redirect" style="width: 2.5em;" checked="checked"><?php _e("Redirect user to eFront"); ?><br />
+                    <?php else: ?>
+                        <input type="radio" name="post-signup" value="redirect" style="width: 2.5em;"><?php _e("Redirect user to eFront"); ?><br />
+                    <?php endif; ?>
+                    <?php if(get_option('ef-post-signup') == 'stay'): ?>
+                        <input type="radio" name="post-signup" value="stay" style="width: 2.5em;" checked="checked"><?php _e("Stay in Wordpress"); ?><br />
+                    <?php else: ?>
+                        <input type="radio" name="post-signup" value="stay" style="width: 2.5em;"><?php _e("Stay in Wordpress"); ?><br />
+                    <?php endif; ?>     
+                         
+                </td>                
+            </tr>
+        </table>
+        		
         <p class="submit">
             <input class="button-primary" type="submit" name="Submit" value="<?php _e('Submit' ) ?>" />
         </p> 		

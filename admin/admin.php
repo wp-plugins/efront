@@ -28,7 +28,7 @@ add_action('admin_menu', 'register_admininstartion_pages');
 
 function ef_help($contextual_help, $screen_id, $screen) {
 	global $ef_admin_page, $ef_options_page, $ef_css_page;
-	
+
 	include (_BASEPATH_ . '/admin/pages/help.php');
 }
 add_filter('contextual_help', 'ef_help', 10, 3);
@@ -38,15 +38,24 @@ function enqueue_js_scripts() {
 }
 
 function efront_admin() {
-
 	if ($_POST['action'] == 'ef-main-config') {
 
 		if ($_POST['ef-domain'] && $_POST['ef-admin-username'] && $_POST['ef-admin-password']) {
-			update_option('efront-domain', $_POST['ef-domain']);
-			update_option('efront-admin-username', $_POST['ef-admin-username']);
-			update_option('efront-admin-password', $_POST['ef-admin-password']);
-			$action_status = "updated";
-			$action_message = _('Details edited successfully');
+			if(ef_is_efront_domain($_POST['ef-domain'])){
+				update_option('efront-domain', 'http://' . $_POST['ef-domain']);
+				update_option('efront-admin-username', $_POST['ef-admin-username']);
+				update_option('efront-admin-password', $_POST['ef-admin-password']);
+				$action_status = "updated";
+				$action_message = _('Details edited successfully');
+
+				ef_empty_cache();
+			} else {
+				update_option('efront-domain', '');
+				update_option('efront-admin-username', '');
+				update_option('efront-admin-password', '');
+				$action_status = "error";
+				$action_message = $_POST['ef-domain'] . " " . _('is not a valid eFront domain');
+			}
 		} else {
 			$action_status = "error";
 			if (!$_POST['ef-domain']) {
@@ -63,12 +72,12 @@ function efront_admin() {
 			}
 		}
 	}
-	
+
 	if ($_POST['action'] == "ef-cache") {
 		ef_empty_cache();
 		$action_status = "updated";
 		$action_message = _('Cache cleared successfully');
-	}	
+	}
 
 	include (_BASEPATH_ . '/admin/pages/efront_admin.php');
 }
@@ -108,6 +117,9 @@ function efront_options() {
 		} else {
 			update_option('ef-catalog-pagination-bottom', false);
 		}
+
+		// after signup option
+		update_option('ef-post-signup', $_POST['post-signup']);
 	}
 
 	include (_BASEPATH_ . '/admin/pages/efront_options.php');
@@ -136,9 +148,61 @@ if ((!get_option('efront-domain') && !$_POST['ef-domain'])) {
 	add_action('admin_notices', 'efront_domain_warning');
 } else {
 	wp_enqueue_script('jquery');
-	wp_enqueue_style('efronts-css', _BASEURL_ . '/css/efront-style.css', false, '1.0');
+	wp_enqueue_style('efront-css', _BASEURL_ . '/css/efront-style.css', false, '1.0');
 
 	eFront::setDomain(get_option('efront-domain'));
 	include (_BASEPATH_ . '/shortcodes/reg_shortcodes.php');
 }
+
+
+/**
+ * AJAX Requests
+ ******************************************/
+
+function ef_get_course_callback() {
+	try {
+		$token = eFront::requestToken();
+		eFront::loginModule($token, get_option('efront-admin-username'), get_option('efront-admin-password'));
+		eFront_Course::assignToUser($token, $_POST['ef_login'], $_POST['course_id'], 'student');
+		$user_autologin_key = eFront_User::getAutologinKey($token, $_POST['ef_login']);
+		$course_lessons = eFront_Course::getCourseLessons($token, $_POST['course_id']);
+		$return_data = array(
+			'status' => 'ok',
+			'url'	=> get_option('efront-domain') . '/index.php?autologin='.$user_autologin_key->autologin_key.'&lessons_ID='.$course_lessons->lessons->lesson[0]->id
+		);
+		echo json_encode($return_data);
+	} catch (Exception $e) {
+		$return_data = array(
+				'status' => 'error',
+				'msg'	=> $e -> getMessage()
+		);
+		echo json_encode($return_data);
+	}
+	die(); // this is required to return a proper result
+}
+add_action('wp_ajax_ef_get_course', 'ef_get_course_callback');
+add_action('wp_ajax_nopriv_ef_get_course', 'ef_get_course_callback');
+
+function ef_get_lesson_callback() {
+	try {
+		$token = eFront::requestToken();
+		eFront::loginModule($token, get_option('efront-admin-username'), get_option('efront-admin-password'));
+		eFront_Lesson::assignToUser($token, $_POST['ef_login'], $_POST['lesson_id']);
+		$user_autologin_key = eFront_User::getAutologinKey($token, $_POST['ef_login']);
+		$return_data = array(
+			'status' => 'ok',
+			'url'	=> get_option('efront-domain') . '/index.php?autologin='.$user_autologin_key->autologin_key.'&lessons_ID='.$_POST['lesson_id']
+		);
+		echo json_encode($return_data);
+	} catch (Exception $e) {
+		$return_data = array(
+			'status' => 'error',
+			'msg'	=> $e -> getMessage()
+		);
+		echo json_encode($return_data);
+	}
+	die();
+}
+add_action('wp_ajax_ef_get_lesson', 'ef_get_lesson_callback');
+add_action('wp_ajax_nopriv_ef_get_lesson', 'ef_get_lesson_callback');
 ?>

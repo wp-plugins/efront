@@ -18,14 +18,13 @@ class eFront {
 		//$domain = str_replace('/', '', $domain);
 
 		self::$domain = $domain;
-		self::$apiBase = 'http://' . $domain . 'api2.php';
+		self::$apiBase = 'http://' . $domain . '/api2.php';
 	}
 
 	/**
 	 * Token Request
 	 *
-	 * For a third-party application to use the XML API module, is necessary to identify itself and log into the system. For security reasons, the XML API module utilizes a token approach.
-	 * Whenever an application wants to communicate with the XML API module, it requests a token from the module. This token will be utilized through all the following requests, until it expires after 30minutes or the application explicitly logs out of the module. The generated tokens have a length of 30-chars and are stored along with their status (unlogged,logged) in the system's database.
+	 * For a third-party application to use the XML API module, is necessary to identify itself and log into the system. For security reasons, the XML API module utilizes a token approach. Whenever an application wants to communicate with the XML API module, it requests a token from the module. This token will be utilized through all the following requests, until it expires after 30minutes or the application explicitly logs out of the module. The generated tokens have a length of 30-chars and are stored along with their status (unlogged,logged) in the system's database.
 	 *
 	 * @link http://docs.efrontlearning.net/index.php/XML_API2#Token_Request
 	 * @return string|eFront_ApiError
@@ -70,6 +69,7 @@ class eFront {
 	 * @return string|eFront_ApiError
 	 * */
 	public static function login($token, $login) {
+		//print_r(self::$apiBase . "?action=efrontlogin" . "&token=" . $token . "&login=" . $login);
 		$xml_response = simplexml_load_file(self::$apiBase . "?action=efrontlogin" . "&token=" . $token . "&login=" . $login);
 		if ($xml_response -> status == 'error') {
 			throw new eFront_ApiError($xml_response -> message);
@@ -132,25 +132,6 @@ class eFront {
 			return $xml_response -> status;
 		}
 	}
-
-	/**
-	 * Catalog
-	 *
-	 * Request of extended catalog (categories with courses and lessons) defined in platform. The application must provide its token. The module checks whether the provided token is valid and whether its status is logged. If so, it processes the request and provides information about the extended catalog.
-	 *
-	 * @link http://docs.efrontlearning.net/index.php/XML_API2#Catalog
-	 * @param string $token token to communicate with the XML API module
-	 * @return SimpleXMLElement Object
-	 * */
-	public static function catalog_extended($token) {
-		$xml_response = simplexml_load_file(self::$apiBase . "?action=catalog_extended" . "&token=" . $token);
-		if ($xml_response -> status == 'error') {
-			throw new eFront_ApiError($xml_response -> message);
-		} else {
-			return $xml_response;
-		}
-	}
-
 }
 
 // Errors

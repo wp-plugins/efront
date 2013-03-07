@@ -3,7 +3,36 @@ try {
 
 	$token = eFront::requestToken();
 	eFront::loginModule($token, get_option('efront-admin-username'), get_option('efront-admin-password'));
+	
+	/* Login from dialog */
+	if($_POST['action'] == 'dialog-post'){
+		if ($_POST['ef-login'] && $_POST['ef-password']) {
+			session_start();
+			$_SESSION['ef-user-login'] = $_POST['ef-login'];
+			$_SESSION['ef-user-password'] = $_POST['ef-password'];
+			try {
+				eFront::login($token, $_SESSION['ef-user-login']);
+				$user = eFront_User::getInfo($token, $_SESSION['ef-user-login']);
+				$user_autologin_key = eFront_User::getAutologinKey($token, $_SESSION['ef-user-login']);
+				
+				$output .= "<div class='alert alert-success'>";
+				$output .= "<span style='display:block'>" . _('Welcome back') . " <b>" . $user -> general_info -> name . "</b></span>";
+				$output .= "<span style='display:block'>" . _('You can visit your learning portal') . " <a target='_blank' href='" . get_option('efront-domain') . "/index.php?autologin=".$user_autologin_key->autologin_key."'>" . _('here') . "</a></span>";
+				$output .= "</div>";
+			} catch(Exception $e) {
+				$output .= "<div class=\"alert alert-error\">";
+				$output .= $e -> getMessage();
+				$output .= "</div>";
+			}
+		} else {
+			$output .= "<div class=\"alert alert-error\">";
+			$output .= _('Login or password incorrect');
+			$output .= "</div>";
+		}
+	}
 
+	
+	
 	if (isset($_GET['lesson']) && $_GET['lesson'] != '') {
 		$lesson = simplexml_load_string(ef_get_cache_value('lesson_' . $_GET['lesson']));
 		if (!$lesson) {

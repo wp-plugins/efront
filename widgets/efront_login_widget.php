@@ -58,15 +58,18 @@ class eFront_login extends WP_Widget {
 			}
 
 		}
-		if (isset($_SESSION['ef-user-login']) && $_SESSION['ef-user-login']!= '' && isset($_SESSION['ef-user-password']) && $_SESSION['ef-user-password'] != '') {
+		if (isset($_SESSION['ef-user-login']) && $_SESSION['ef-user-login'] != '' && isset($_SESSION['ef-user-password']) && $_SESSION['ef-user-password'] != '') {
 			try {
+				session_start();
 				$token = eFront::requestToken();
 				eFront::loginModule($token, get_option('efront-admin-username'), get_option('efront-admin-password'));
 				$user = eFront_User::getInfo($token, $_SESSION['ef-user-login']);
-	
-				$output .= "<span style='display:block'>" . _('Welcome back') . " <b>" . $user -> general_info -> name . "</b></span>";
-				$output .= "<span style='display:block'>" . _('You can visit your learning portal') . " <a target='_blank' href='" . get_option('efront-domain') . "'>" . _('here') . "</a></span>";
-
+				$user_autologin_key = eFront_User::getAutologinKey($token, $_SESSION['ef-user-login']);
+				
+				$output .= "<div class='alert alert-success'>";
+				$output .= "<span style='display:block'>" . _('Welcome back') . "<br /> <b>" . $user -> general_info -> name . "</b></span>";
+				$output .= "<span style='display:block'>" . _('You can visit your learning portal') . " <a target='_blank' href='" . get_option('efront-domain') . "/index.php?autologin=".$user_autologin_key->autologin_key."'>" . _('here') . "</a></span>";
+				$output .= "</div>";
 				$output .= "<form class='form-horizontal' method='post' action='" . current_page_url() . "'>";
 				$output .= "<input id='ef-login' name='ef-logout' type='hidden' value='logout'>";
 				$output .= "<button class='btn' type='submit'>" . _('Logout') . "</button>";
@@ -83,21 +86,21 @@ class eFront_login extends WP_Widget {
 				$output .= "</div>";
 			}
 
-			$output .= "<form class='form-horizontal' method='post' action='" . current_page_url() . "'>";
-			$output .= "<div>";
-			$output .= "<label for='ef-login'>" . _('Login') . "</label>";
-			$output .= "<div >";
-			$output .= "<input class='span' id='ef-login' name='ef-login' type='text'>";
+			$output .= "<form class='ef-widget-form' method='post' action='" . current_page_url() . "'>";
+			$output .= "<div class='ef-widget-form-group'>";
+			$output .= "	<label class='ef-widget-form-label' for='ef-login'>" . _('Login') . "</label>";
+			$output .= "	<div class='ef-widget-form-control'>";
+			$output .= "		<input class='span' id='ef-login' name='ef-login' type='text'>";
+			$output .= "	</div>";
 			$output .= "</div>";
+			$output .= "<div class='ef-widget-form-group'>";
+			$output .= "	<label class='ef-widget-form-label' for='ef-password'>" . _('Password') . "</label>";
+			$output .= "	<div class='ef-widget-form-control'>";
+			$output .= "		<input class='span' id='ef-password' name='ef-password' type='password'>";
+			$output .= "	</div>";
 			$output .= "</div>";
-			$output .= "<div>";
-			$output .= "<label for='ef-password'>" . _('Password') . "</label>";
-			$output .= "<div >";
-			$output .= "<input class='span' id='ef-password' name='ef-password' type='password'>";
-			$output .= "</div>";
-			$output .= "</div>";
-			$output .= "<div class='form-actions' style='text-align:right;'>";
-			$output .= "<button class='btn' type='submit'>" . _('Login') . "</button>";
+			$output .= "<div class='ef-widget-form-actions' style='text-align:right;'>";
+			$output .= "	<input type='submit' value='" . _('Login') . "'>";
 			$output .= "</div>";
 			$output .= "</form>";
 		}

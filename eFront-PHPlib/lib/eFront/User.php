@@ -130,7 +130,7 @@ class eFront_User extends eFront {
 	/**
 	 * User lessons
 	 * 
-	 * Another provided action is the request of showing the lessons of a user. The application must provide its token and the login of the user. The module checks whether the provided token is valid and whether its status is logged. If so, it processes the request returning a lesson list
+	 * Get the lessons of a user. The application must provide its token and the login of the user. The module checks whether the provided token is valid and whether its status is logged. If so, it processes the request returning a lesson list
 	 * 
 	 * @link http://docs.efrontlearning.net/index.php/XML_API2#User_lessons
 	 * @param string $token token to communicate with the XML API module
@@ -183,5 +183,24 @@ class eFront_User extends eFront {
 		} else {
 			return $xml_response -> status;
 		}
-	}	
+	}
+
+	/**
+	 * Get user's autologin key
+	 *
+	 * Get user's autologin key. The module checks whether the provided token is valid and whether its status is logged. If so, it processes the request and returns the corresponding user's autologin key.
+	 *
+	 * @link 
+	 * @param string $token token to communicate with the XML API module
+	 * @param string $login the login of the corresponding user
+	 * @return string|eFront_ApiError the user's autologin key
+	 * */	
+	public static function getAutologinKey($token, $login){
+		$xml_response = simplexml_load_file(self::$apiBase . "?action=user_autologin_key" . "&token=" . $token . "&login=" . $login);
+		if ($xml_response -> status == 'error') {
+			throw new eFront_ApiError($xml_response -> message);
+		} else {
+			return $xml_response;
+		}
+	}
 }

@@ -1,5 +1,4 @@
 <?php
-
 $output .= "<h2>" . $lesson -> general_info -> name . "</h2>";
 
 if (intval($lesson -> general_info -> price -> value)) {
@@ -7,7 +6,23 @@ if (intval($lesson -> general_info -> price -> value)) {
 }
 
 $output .= "<div style='text-align: right'>";
-$output .= "<a href='javascript:history.go(-1);'>" . _('Go Back') . "</a>";
+session_start();
+if(!$_SESSION['ef-user-login'] && !$_SESSION['ef-user-password']){
+	$output .= "<a id='ef-dialog-open' class='btn' href='javascript:void(0);'>" . __('Login to get this lesson') . "</a> " . _('or') . " <a href='javascript:history.go(-1);'>" . _('Go Back') . "</a>";
+} else {
+	if ($lesson -> general_info -> price -> value == 0){
+		if(ef_user_has_lesson($token, $_SESSION['ef-user-login'], $_GET['lesson'])){
+			$user_autologin_key = eFront_User::getAutologinKey($token, $_SESSION['ef-user-login']);
+			$output .= "<a target='_blank' href='" . get_option('efront-domain') . '/index.php?autologin='.$user_autologin_key->autologin_key.'&lessons_ID='.$_GET['lesson'] . "'>" . __('Take lesson') . "</a> " . _('or') . " <a href='javascript:history.go(-1);'>" . _('Go Back') . "</a>";
+		} else {	
+			$output .= "<a id='ef-get-lesson' href='javascript:void(0);'>" . __('Get this lesson') . "</a> " . _('or') . " <a href='javascript:history.go(-1);'>" . _('Go Back') . "</a>";
+		}
+	} else {
+		$paypal_url = eFront_Lesson::buyLesson($token, $_GET['lesson'], $_SESSION['ef-user-login']);
+		$output .= "<a target='_blank' href='".urldecode($paypal_url)."'>" . __('Buy this lesson') . "</a> " . _('or') . " <a href='javascript:history.go(-1);'>" . _('Go Back') . "</a>";
+		
+	}
+}
 $output .= "</div>";
 
 $output .= "<h3>" . _('Information') . "</h3>";
@@ -77,4 +92,6 @@ if (!empty($units['unit'])) {
 	$output .= "<h3>" . _('Content') . "</h3>";
 	$output .= ef_build_units_tree($units['unit']);
 }
+
+include (_BASEPATH_ . '/templates/login-dialog.php');
 ?>
