@@ -13,19 +13,16 @@ This plugin integrates eFront with Wordpress. Promote your eFront content throug
 
 [eFront](http://www.efrontlearning.net/ "Enterprise Learning Management System Software") is a robust learning platform, bundled with key enterprise functionality ranging from branch management to tailor-made reports. We have worked with hundreds of organizations to shape a product that meet the training needs of modern enterprises.
 
-Read more about TalentLMS in:
+Read more about eFront in:
 
-* [eFront – blog](http://blog.efrontlearning.net/ "eFront – blog")
+* [eFront – blog](http://blog.efrontlearning.net/ "eFront - blog")
 
 ## Plugin Features ##
 
 1. List your eFront courses and lessons and their content in WordPress.
-
-
-- Caching
-
-* Each time you retreive a eFront item (courses/lessons list, single course/lesson, categories list etc) this item is cached for performance reasons.
-If you want to force cached items to be updated you should clear your cache. (_Administration Panel > eFront > Clear cache_)
+2. Allow your users to signup to eFront through WordPress.
+3. Allow your users to get or buy eFront courses or lessons.
+4. Achive good integration perfomance through caching.
 
 
 == Installation ==
@@ -47,6 +44,10 @@ Alternatively you can automatically install eFront WordPress plugin from the Wor
 * Use the shortcodes:
 * `[efront-catalog]` : to list your eFront courses
 * `[efront-signup]` : to have a signup form for new users to eFront
+
+* Each time you retreive a eFront item (courses/lessons list, single course/lesson, categories list etc) this item is cached for performance reasons.
+If you want to force cached items to be updated you should clear your cache. (_Administration Panel > eFront > Clear cache_)
+
 
 == Frequently Asked Questions ==
 
