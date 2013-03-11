@@ -69,7 +69,7 @@ function ef_create_catalog_tree_node($node) {
 	$html .= "<img src='" . _BASEURL_ . "/img/arrow_down.png' />";
 	$html .= "<strong>" . $node['name'] . "</strong>";
 	$html .= "</div>";
-	if (is_array($node['children'])) {
+	if (is_array($node['content'][0]['item'])) {
 		$html .= "<ul id=\"ef-category-contents-" . $node['id'] . "\">";
 		$html .= output_category_content($node);
 		foreach ($node['children'] as $child) {
