@@ -87,6 +87,11 @@ Here are some screenshots of the eFront WordPress plugin.
 
 == Changelog ==
 
+= 2.1 =
+
+* Sync eFront and WP users
+* Allow WP user registration upon eFront user signup 
+
 = 2.0 =
 
 * Signup shortcode
@@ -101,6 +106,10 @@ Here are some screenshots of the eFront WordPress plugin.
 * Caching
 
 == Upgrade Notice ==
+
+= 2.1 =
+
+* Updated eFront API PHP Library
 
 = 2.0 =
 

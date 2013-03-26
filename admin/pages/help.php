@@ -55,6 +55,28 @@
 			'<p>' . __('<a href="http://www.efrontlearning.net/support" target="_blank">Support</a>') . '</p>'
 		);		
 	}
+	if($screen_id == $ef_sync_page){
+		get_current_screen()->add_help_tab( array(
+			'id'		=> 'about',
+			'title'		=> __('About eFront'),
+			'content'	=>
+				'<p>' . '<strong>' . __('eFront') . '</strong>' . __(' is a robust learning platform, bundled with key enterprise functionality ranging from branch management to tailor-made reports. We have worked with hundreds of organizations to shape a product that meet the training needs of modern enterprises.') . '</p>'
+		));
+		get_current_screen()->add_help_tab(array(
+			'id'		=> 'screen-content',
+			'title'		=> __('Screen Content'),
+			'content'	=>
+				'<p>' . __('eFront and WP Synchronization:') . '</p>' .
+				'<ul>' .
+					'<li>' . __('You can synchronize your eFront and WP users, by making your WP also users in eFront and vice versa. If you choose to perform a hard sync, all WP users\' details with the same username in eFront will be overwritten by the corresponding eFront details.') . '</li>' .
+				'</ul>'
+		));
+		get_current_screen()->set_help_sidebar(
+			'<p><strong>' . __('For more information:') . '</strong></p>' .
+			'<p>' . __('<a href="http://www.efrontlearning.net/" target="_blank">www.efrontlearning.net</a>') . '</p>' .
+			'<p>' . __('<a href="http://www.efrontlearning.net/support" target="_blank">Support</a>') . '</p>'
+		);
+	}
 	if($screen_id == $ef_css_page){
 		get_current_screen()->add_help_tab( array(
 			'id'		=> 'about',
@@ -75,6 +97,7 @@
 			'<p><strong>' . __('For more information:') . '</strong></p>' .
 			'<p>' . __('<a href="http://www.efrontlearning.net/" target="_blank">www.efrontlearning.net</a>') . '</p>' .
 			'<p>' . __('<a href="http://www.efrontlearning.net/support" target="_blank">Support</a>') . '</p>'
-		);	
-	}	
+		);
+	}
+	
 ?>

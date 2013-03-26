@@ -14,7 +14,10 @@ try {
 				eFront::login($token, $_SESSION['ef-user-login']);
 				$user = eFront_User::getInfo($token, $_SESSION['ef-user-login']);
 				$user_autologin_key = eFront_User::getAutologinKey($token, $_SESSION['ef-user-login']);
-				
+				if(!$user_autologin_key->autologin_key){
+					eFront_User::setAutologinKey($token, $_SESSION['ef-user-login']);
+					$user_autologin_key = eFront_User::getAutologinKey($token, $_SESSION['ef-user-login']);
+				}				
 				$output .= "<div class='alert alert-success'>";
 				$output .= "<span style='display:block'>" . _('Welcome back') . " <b>" . $user -> general_info -> name . "</b></span>";
 				$output .= "<span style='display:block'>" . _('You can visit your learning portal') . " <a target='_blank' href='" . get_option('efront-domain') . "/index.php?autologin=".$user_autologin_key->autologin_key."'>" . _('here') . "</a></span>";

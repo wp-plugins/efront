@@ -32,7 +32,7 @@ if ($_POST['submit']) {
 		$password_error_class = 'ef-form-error';
 		$post = false;
 	} else {
-		if(strlen($_POST['password']) < 6){
+		if (strlen($_POST['password']) < 6) {
 			$password_error_class = 'ef-form-error';
 			$post = false;
 		}
@@ -43,15 +43,22 @@ if ($_POST['submit']) {
 			$token = eFront::requestToken();
 			eFront::loginModule($token, get_option('efront-admin-username'), get_option('efront-admin-password'));
 			$result = eFront_User::createUser($token, $_POST['login'], $_POST['password'], $_POST['first_name'], $_POST['last-name'], $_POST['language'], $_POST['email']);
+			eFront_User::setAutologinKey($token, $_POST['login']);
 			
+			if (get_option('ef-sync-signup-users')) {
+				$new_wp_user_id = wp_insert_user(array('user_login' => $_POST['login'], 'user_pass' => $_POST['password'], 'user_email' => $_POST['email'], 'first_name' => $_POST['first_name'], 'last_name' => $_POST['last-name']));
+				if (is_wp_error($new_wp_user_id)) {
+					eFront_User::removeUser($token, $_POST['login']);
+					throw new Exception("".$new_wp_user_id -> get_error_message(), 1);
+				}
+			}
+
 			if (get_option('ef-post-signup') == 'redirect') {
 				$output .= "<script type='text/javascript'>window.location = '" . get_option('efront-domain') . "'</script>";
 			} else {
 				$output .= "<div class=\"alert alert-success\">";
 				$output .= "User " . $_POST['login'] . " signed up successfuly. Goto to your learning portal <a target='_blank' href='" . get_option('efront-domain') . "'>" . _('here') . "</a>";
 				$output .= "</div>";
-			
-				//$output .= $output;
 			}
 		} catch(Exception $e) {
 			$output .= "<div class=\"alert alert-error\">";
@@ -93,11 +100,11 @@ $output .= "<div class='ef-form-group " . $language_error_class . "'>";
 $output .= "	<label class='ef-form-label' for='email'>" . __('Language') . "</label>";
 $output .= "	<div class='ef-form-control'>";
 $output .= "		<select id='language' name='language'>";
-foreach($languages as $key => $language){
-	if($_POST['language'] == $key){
-		$output .= "		<option value='".$key."' selected='selected'>".$language."</option>";
+foreach ($languages as $key => $language) {
+	if ($_POST['language'] == $key) {
+		$output .= "		<option value='" . $key . "' selected='selected'>" . $language . "</option>";
 	} else {
-		$output .= "		<option value='".$key."'>".$language."</option>";
+		$output .= "		<option value='" . $key . "'>" . $language . "</option>";
 	}
 }
 $output .= "		</select>";

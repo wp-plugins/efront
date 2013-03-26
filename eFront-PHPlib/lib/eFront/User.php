@@ -3,9 +3,27 @@
 class eFront_User extends eFront {
 
 	/**
+	 * Get Users
+	 * 
+	 * Request of all users. The application must provide its token and the login of the user. The module checks whether the provided token is valid and whether its status is logged. If so, it processes the request and provides a list of all users in eFront.
+	 * 
+	 * @link
+	 * @param string $token token to communicate with the XML API module
+	 * @return SimpleXMLElement Object a list of all users in eFront
+	 * */
+	public static function getUsers($token) {
+		$xml_response = simplexml_load_file(self::$apiBase . "?action=users" . "&token=" . $token);
+		if ($xml_response -> status == 'error') {
+			throw new eFront_ApiError($xml_response -> message);
+		} else {
+			return $xml_response;
+		}
+	}
+
+	/**
 	 * User info
 	 * 
-	 * Another provided action is the request of general information about a user. The application must provide its token and the login of the user. The module checks whether the provided token is valid and whether its status is logged. If so, it processes the request and provides general information about the corresponding user.
+	 * Request of general information about a user. The application must provide its token and the login of the user. The module checks whether the provided token is valid and whether its status is logged. If so, it processes the request and provides general information about the corresponding user.
 	 * 
 	 * @link http://docs.efrontlearning.net/index.php/XML_API2#User_info
 	 * @param string $token token to communicate with the XML API module
@@ -196,11 +214,30 @@ class eFront_User extends eFront {
 	 * @return string|eFront_ApiError the user's autologin key
 	 * */	
 	public static function getAutologinKey($token, $login){
-		$xml_response = simplexml_load_file(self::$apiBase . "?action=user_autologin_key" . "&token=" . $token . "&login=" . $login);
+		$xml_response = simplexml_load_file(self::$apiBase . "?action=get_user_autologin_key" . "&token=" . $token . "&login=" . $login);
 		if ($xml_response -> status == 'error') {
 			throw new eFront_ApiError($xml_response -> message);
 		} else {
 			return $xml_response;
 		}
+	}
+
+	/**
+	 * Get user's autologin key
+	 *
+	 * Set user's autologin key. The module checks whether the provided token is valid and whether its status is logged. If so, it processes the request and sets the corresponding user's autologin key.
+	 *
+	 * @link 
+	 * @param string $token token to communicate with the XML API module
+	 * @param string $login the login of the corresponding user
+	 * @return string|eFront_ApiError the user's autologin key
+	 * */	
+	public static function setAutologinKey() {
+		$xml_response = simplexml_load_file(self::$apiBase . "?action=set_user_autologin_key" . "&token=" . $token . "&login=" . $login);
+		if ($xml_response -> status == 'error') {
+			throw new eFront_ApiError($xml_response -> message);
+		} else {
+			return $xml_response;
+		}		
 	}
 }

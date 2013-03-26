@@ -109,14 +109,26 @@
                         <input type="radio" name="post-signup" value="stay" style="width: 2.5em;" checked="checked"><?php _e("Stay in Wordpress"); ?><br />
                     <?php else: ?>
                         <input type="radio" name="post-signup" value="stay" style="width: 2.5em;"><?php _e("Stay in Wordpress"); ?><br />
-                    <?php endif; ?>     
-                         
+                    <?php endif; ?>
                 </td>                
             </tr>
+    		<tr>
+    			<th scope="row" class="form-field" style="width: 30em;">
+    				<?php _e('Synchronize singup eFront and WP'); ?>
+    			</th>
+    			<td class="form-field">
+				<?php if (get_option('ef-sync-signup-users')): ?>
+			    <input id="ef-sync-signup-users" name="ef-sync-signup-users" value="<?php echo true; ?>" type="checkbox" style="width: 1.5em;" checked="checked"/>
+			    <?php else : ?>
+			    <input id="ef-sync-signup-users" name="ef-sync-signup-users" value="<?php echo true; ?>" type="checkbox" style="width: 1.5em;" />
+			    <?php endif; ?>    				
+    			&nbsp;<span class="description"><?php _e("Using this will create a WP user each time a user signs up to eFront"); ?> </span>
+    			</td>
+    		</tr>            
         </table>
         		
         <p class="submit">
-            <input class="button-primary" type="submit" name="Submit" value="<?php _e('Submit' ) ?>" />
+            <input class="button-primary" type="submit" name="Submit" value="<?php _e('Submit') ?>" />
         </p> 		
 	</form>
 

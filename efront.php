@@ -3,13 +3,13 @@
  Plugin Name: eFront
  Plugin URI:
  Description: This plugin integrates <a href="http://www.efrontlearning.net/">eFront</a> with Wordpress. Promote your eFront content through your WordPress site.
- Version: 2.0
+ Version: 2.1
  Author: Vasilis Proutzos / Epignosis LTD
  Author URI: http://www.efrontlearning.net/
  License: GPL2
  */
 
-define("_VERSION_", "2.0");
+define("_VERSION_", "2.1");
 define("_BASEPATH_", dirname(__FILE__));
 define("_BASEURL_", plugin_dir_url(__FILE__));
 
@@ -47,7 +47,10 @@ function install() {
 
 	/* Singup configuration*/
 	update_option('ef-post-signup', 'stay');
-	
+
+	/* Sync eFront and WP users configuration */
+	update_option('ef-sync-signup-users', true);
+
 	ef_setup_catalog_page();
 	ef_setup_signup_page();
 }
@@ -70,10 +73,13 @@ function uninstall() {
 
 	/* Singup configuration*/
 	delete_option('ef-post-signup');
-	
+
+	/* Sync eFront and WP users configuration */
+	delete_option('ef-sync-signup-users');
+
 	ef_delete_catalog_page();
 	ef_delete_signup_page();
-	
+
 	ef_db_drop();
 }
 
@@ -138,7 +144,6 @@ function ef_delete_catalog_page() {
 	delete_option("ef_catalog_page_name");
 	delete_option("ef_catalog_page_id");
 }
-
 
 function ef_setup_signup_page() {
 	global $wpdb;
