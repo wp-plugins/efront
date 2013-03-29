@@ -132,6 +132,15 @@ class eFront {
 			return $xml_response -> status;
 		}
 	}
+	
+	public static function languages($token) {
+		$xml_response = simplexml_load_file(self::$apiBase . "?action=languages" . "&token=" . $token);
+		if ($xml_response -> status == 'error') {
+			throw new eFront_ApiError($xml_response -> message);
+		} else {
+			return $xml_response;
+		}		
+	}
 }
 
 // Errors

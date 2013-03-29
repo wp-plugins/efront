@@ -12,8 +12,14 @@ require_once (_BASEPATH_ . '/utils/template_utils/catalog_tree_utils.php');
  *
  * @return array efront languages
  * */
-function get_ef_languages() {
-	$efront_languages = array('brazilian' => 'Brasileira', 'catalan' => 'CatalΓ ', 'czech' => 'Δ�esky', 'danish' => 'Dansk', 'german' => 'Deutsch', 'english-enterprise' => 'English', 'spanish' => 'EspaΓ±ol', 'greek-enterprise' => 'EΞ»Ξ»Ξ·Ξ½ΞΉΞΊΞ¬', 'filipino' => 'Filipino', 'french' => 'FranΓ§ais', 'galician' => 'Galego', 'croatian' => 'Hrvatski', 'indonesian' => 'Indonesia', 'italian' => 'Italiano', 'latvian' => 'LatvieΕ΅u', 'lithuanian' => 'LietuviΕ΅kai', 'hungarian' => 'Magyar', 'dutch' => 'Nederlands', 'norwegian' => 'Norsk', 'polish' => 'Polski', 'portuguese' => 'PortuguΓ�s', 'russian' => 'PΡƒΡ�Ρ�ΠΊΠΈΠΉ', 'romanian' => 'RomΓΆnΔƒ', 'albanian' => 'Shqipe', 'slovak' => 'SlovenΔ�ina', 'slovenian' => 'Slovenski', 'finnish' => 'Suomi', 'swedish' => 'Svenska', 'turkish' => 'TΓΌrkΓ§e', 'bulgarian' => 'Π‘Ρ�Π»Π³Π°Ρ€Ρ�ΠΊΠΈ', 'ukrainian' => 'Π£ΠΊΡ€Π°Ρ—Π½Ρ�Ρ�ΠΊΠµ', );
+function ef_get_languages() {
+	$token = eFront::requestToken();
+	eFront::loginModule($token, get_option('efront-admin-username'), get_option('efront-admin-password'));
+	$languages = xml2array(eFront::languages($token));
+	
+	foreach ($languages['languages'][0]['lang'] as $lang) {
+		$efront_languages[$lang['name']] = $lang['translation'];
+	}	
 	return $efront_languages;
 }
 
@@ -23,9 +29,9 @@ function get_ef_languages() {
  * @param string $key key for efront language
  * @return string language
  * */
-function get_ef_language($key) {
+function ef_get_language($key) {
 	$key = trim($key);
-	$efront_languages = array('brazilian' => 'Brasileira', 'catalan' => 'CatalΓ ', 'czech' => 'Δ�esky', 'danish' => 'Dansk', 'german' => 'Deutsch', 'english-enterprise' => 'English', 'spanish' => 'EspaΓ±ol', 'greek-enterprise' => 'EΞ»Ξ»Ξ·Ξ½ΞΉΞΊΞ¬', 'filipino' => 'Filipino', 'french' => 'FranΓ§ais', 'galician' => 'Galego', 'croatian' => 'Hrvatski', 'indonesian' => 'Indonesia', 'italian' => 'Italiano', 'latvian' => 'LatvieΕ΅u', 'lithuanian' => 'LietuviΕ΅kai', 'hungarian' => 'Magyar', 'dutch' => 'Nederlands', 'norwegian' => 'Norsk', 'polish' => 'Polski', 'portuguese' => 'PortuguΓ�s', 'russian' => 'PΡƒΡ�Ρ�ΠΊΠΈΠΉ', 'romanian' => 'RomΓΆnΔƒ', 'albanian' => 'Shqipe', 'slovak' => 'SlovenΔ�ina', 'slovenian' => 'Slovenski', 'finnish' => 'Suomi', 'swedish' => 'Svenska', 'turkish' => 'TΓΌrkΓ§e', 'bulgarian' => 'Π‘Ρ�Π»Π³Π°Ρ€Ρ�ΠΊΠΈ', 'ukrainian' => 'Π£ΠΊΡ€Π°Ρ—Π½Ρ�Ρ�ΠΊΠµ', );
+	$efront_languages = ef_get_languages();
 
 	return $efront_languages[$key];
 }

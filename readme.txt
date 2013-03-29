@@ -107,6 +107,11 @@ Here are some screenshots of the eFront WordPress plugin.
 
 == Upgrade Notice ==
 
+= 2.2 =
+
+* Updated eFront API PHP Library
+* eFront languages fixed
+
 = 2.1 =
 
 * Updated eFront API PHP Library

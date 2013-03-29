@@ -94,7 +94,7 @@ $output .= "		<span class='ef-form-help-inline'>" . " " . $email_error . "</span
 $output .= "	</div>";
 $output .= "</div>";
 
-$languages = get_ef_languages();
+$languages = ef_get_languages();
 
 $output .= "<div class='ef-form-group " . $language_error_class . "'>";
 $output .= "	<label class='ef-form-label' for='email'>" . __('Language') . "</label>";
