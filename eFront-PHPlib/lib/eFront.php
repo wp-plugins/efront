@@ -18,7 +18,7 @@ class eFront {
 		//$domain = str_replace('/', '', $domain);
 
 		self::$domain = $domain;
-		self::$apiBase = 'http://' . $domain . '/api2.php';
+		self::$apiBase = 'http://' . $domain . '/www/api2.php';
 	}
 
 	/**
@@ -50,7 +50,7 @@ class eFront {
 	 * @return string|eFront_ApiError
 	 * */
 	public static function loginModule($token, $username, $password) {
-		$xml_response = simplexml_load_file(self::$apiBase . "?action=login" . "&token=" . $token . "&username=" . $username . "&password=" . $password);
+		$xml_response = simplexml_load_file(self::$apiBase . "?action=login" . "&token=" . $token . "&username=" . urlencode($username) . "&password=" . urlencode($password));
 		if ($xml_response -> status == 'error') {
 			throw new eFront_ApiError($xml_response -> message);
 		} else {
@@ -69,7 +69,6 @@ class eFront {
 	 * @return string|eFront_ApiError
 	 * */
 	public static function login($token, $login) {
-		//print_r(self::$apiBase . "?action=efrontlogin" . "&token=" . $token . "&login=" . $login);
 		$xml_response = simplexml_load_file(self::$apiBase . "?action=efrontlogin" . "&token=" . $token . "&login=" . $login);
 		if ($xml_response -> status == 'error') {
 			throw new eFront_ApiError($xml_response -> message);

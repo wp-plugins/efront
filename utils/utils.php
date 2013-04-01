@@ -16,7 +16,6 @@ function ef_get_languages() {
 	$token = eFront::requestToken();
 	eFront::loginModule($token, get_option('efront-admin-username'), get_option('efront-admin-password'));
 	$languages = xml2array(eFront::languages($token));
-	
 	foreach ($languages['languages'][0]['lang'] as $lang) {
 		$efront_languages[$lang['name']] = $lang['translation'];
 	}	
@@ -130,7 +129,7 @@ function ef_user_has_course($token, $login, $course_id) {
  * @return boolean true if domain is a valid and eFront domain
  * */
 function ef_is_efront_domain($domain) {
-	return preg_match("/^[a-z0-9-\.]{1,100}\w+$/", $domain) AND (strpos($domain, 'efrontlearning.com') !== false);
+	return preg_match("/^[a-z0-9-\.]{1,100}\w+$/", $domain) AND ((strpos($domain, 'efrontlearning.net') !== false) OR (strpos($domain, 'efrontlearning.com') !== false));
 }
 
 /**

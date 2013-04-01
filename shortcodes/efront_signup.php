@@ -1,5 +1,4 @@
 <?php
-//login, password, name, surname, languages, email, token
 if ($_POST['submit']) {
 	$post = true;
 	if (!$_POST['first-name']) {
