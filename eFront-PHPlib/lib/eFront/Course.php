@@ -1,5 +1,6 @@
 <?php
 
+
 class eFront_Course extends eFront {
 
 	/**

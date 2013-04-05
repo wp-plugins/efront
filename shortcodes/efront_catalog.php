@@ -7,20 +7,20 @@ try {
 	/* Login from dialog */
 	if($_POST['action'] == 'dialog-post'){
 		if ($_POST['ef-login'] && $_POST['ef-password']) {
-			session_start();
-			$_SESSION['ef-user-login'] = $_POST['ef-login'];
-			$_SESSION['ef-user-password'] = $_POST['ef-password'];
 			try {
-				eFront::login($token, $_SESSION['ef-user-login']);
-				$user = eFront_User::getInfo($token, $_SESSION['ef-user-login']);
-				$user_autologin_key = eFront_User::getAutologinKey($token, $_SESSION['ef-user-login']);
-				if(!$user_autologin_key->autologin_key){
-					eFront_User::setAutologinKey($token, $_SESSION['ef-user-login']);
-					$user_autologin_key = eFront_User::getAutologinKey($token, $_SESSION['ef-user-login']);
-				}				
+				eFront::login($token, $_POST['ef-login']);
+				$user = eFront_User::getInfo($token, $_POST['ef-login']);
+				$user_autologin_key = xml2array(eFront_User::getAutologinKey($token, $_POST['ef-login']));
+				if(!$user_autologin_key['autologin_key']){
+					eFront_User::setAutologinKey($token, $_POST['ef-login']);
+					$user_autologin_key = xml2array(eFront_User::getAutologinKey($token, $_POST['ef-login']));
+				}			
+				session_start();
+				$_SESSION['ef-user-login'] = $_POST['ef-login'];
+				$_SESSION['ef-user-password'] = $_POST['ef-password'];				
 				$output .= "<div class='alert alert-success'>";
 				$output .= "<span style='display:block'>" . _('Welcome back') . " <b>" . $user -> general_info -> name . "</b></span>";
-				$output .= "<span style='display:block'>" . _('You can visit your learning portal') . " <a target='_blank' href='" . get_option('efront-domain') . "/index.php?autologin=".$user_autologin_key->autologin_key."'>" . _('here') . "</a></span>";
+				$output .= "<span style='display:block'>" . _('You can visit your learning portal') . " <a target='_blank' href='" . get_option('efront-domain') . "www/index.php?autologin=".$user_autologin_key['autologin_key']."'>" . _('here') . "</a></span>";
 				$output .= "</div>";
 			} catch(Exception $e) {
 				$output .= "<div class=\"alert alert-error\">";
@@ -52,6 +52,7 @@ try {
 
 		}
 		$course_lessons = simplexml_load_string(ef_get_cache_value('course_lessons_' . $_GET['course']));
+		print_r($course_lessons);
 		if (!$course_lessons) {
 			$course_lessons = eFront_Course::getCourseLessons($token, $_GET['course']);
 			ef_add_cache_value(array('name' => 'course_lessons' . $_GET['course'], 'value' => $course_lessons -> asXML()));

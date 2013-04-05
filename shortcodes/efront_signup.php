@@ -94,16 +94,23 @@ $output .= "	</div>";
 $output .= "</div>";
 
 $languages = ef_get_languages();
+$default_lang = $languages['default'];
+unset($languages['default']);
 
 $output .= "<div class='ef-form-group " . $language_error_class . "'>";
 $output .= "	<label class='ef-form-label' for='email'>" . __('Language') . "</label>";
 $output .= "	<div class='ef-form-control'>";
 $output .= "		<select id='language' name='language'>";
+
 foreach ($languages as $key => $language) {
 	if ($_POST['language'] == $key) {
 		$output .= "		<option value='" . $key . "' selected='selected'>" . $language . "</option>";
 	} else {
-		$output .= "		<option value='" . $key . "'>" . $language . "</option>";
+		if($default_lang == $key){
+			$output .= "		<option value='" . $key . "' selected='selected'>" . $language . "</option>";
+		} else {
+			$output .= "		<option value='" . $key . "'>" . $language . "</option>";	
+		}
 	}
 }
 $output .= "		</select>";

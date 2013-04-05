@@ -16,6 +16,7 @@ function ef_get_languages() {
 	$token = eFront::requestToken();
 	eFront::loginModule($token, get_option('efront-admin-username'), get_option('efront-admin-password'));
 	$languages = xml2array(eFront::languages($token));
+	$efront_languages['default'] = $languages['default_lang'];
 	foreach ($languages['languages'][0]['lang'] as $lang) {
 		$efront_languages[$lang['name']] = $lang['translation'];
 	}	

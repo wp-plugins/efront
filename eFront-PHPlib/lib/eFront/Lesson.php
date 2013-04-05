@@ -155,7 +155,6 @@ class eFront_Lesson extends eFront {
 	 * @return SimpleXMLElement Object the paypal url to buy the corresponding course
 	 * */
 	public static function buyLesson($token, $lesson_id, $login) {
-		print_r(self::$apiBase . "?action=buy_lesson" . "&token=" . $token . "&lesson=" . $lesson_id . "&login=" . $login);
 		$xml_response = simplexml_load_file(self::$apiBase . "?action=buy_lesson" . "&token=" . $token . "&lesson=" . $lesson_id . "&login=" . $login);
 		if ($xml_response -> status == 'error') {
 			throw new eFront_ApiError($xml_response -> message);

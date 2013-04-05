@@ -13,9 +13,9 @@ class eFront {
 	 * @param string $domain eFront domain
 	 * */
 	public static function setDomain($domain) {
+		$domain = trim($domain, "/");
 		$domain = str_replace('http://', '', $domain);
 		$domain = str_replace('https://', '', $domain);
-		//$domain = str_replace('/', '', $domain);
 
 		self::$domain = $domain;
 		self::$apiBase = 'http://' . $domain . '/www/api2.php';
