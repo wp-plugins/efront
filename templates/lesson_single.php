@@ -24,11 +24,11 @@ $output .= "<h1>" . $lesson -> general_info -> name . "</h1>";
 
 // Trainers
 if (!empty($lesson -> general_info -> users -> user)) {
-	$output .= "<h2>";
+	$output .= "<p><strong>";
 	foreach ($lesson -> general_info -> users -> user as $user) {
-		$output .= $user -> name . " " . $user -> surname . " (" . $user -> email . ") ";
+		$output .= $user -> name . " " . $user -> surname;
 	}	
-	$output .= "</h2>";
+	$output .= "</strong></p>";
 }
 // General description
 if ($lesson -> general_info -> info -> general_description) {
@@ -40,8 +40,6 @@ if (intval($lesson -> general_info -> price -> value)) {
 	$output .= "<p><strong>" . _('Price') . ":</strong> " . $lesson -> general_info -> price -> value . " " . $lesson -> general_info -> price -> currency . "</p>";
 }
 $output .= "<hr />";
-
-$output .= "<h3>" . _('Information') . "</h3>";
 
 // Objectives
 if ($lesson -> general_info -> info -> objectives) {

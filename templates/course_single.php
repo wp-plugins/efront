@@ -32,8 +32,6 @@ if (intval($course -> general_info -> price -> value)) {
 
 $output .= "<hr />";
 
-
-$output .= "<h3>" . _('Information') . "</h3>";
 if ($course -> general_info -> info -> objectives) {
 	$output .= "<h4>" . _('Objectives') . "</h4>";
 	$output .= "<p>" . $course -> general_info -> info -> objectives . "</p>";
@@ -84,11 +82,11 @@ foreach ($course_lessons->lessons->lesson as $lesson) {
 	$output .= "<h3 id='ef-lesson-" . $lesson_id . "'>" . $lesson -> general_info -> name . "</h3>";
 
 	if (!empty($lesson -> general_info -> users -> user)) {
-		$output .= "<strong>";		
+		$output .= "<p><strong>";		
 		foreach ($lesson -> general_info -> users -> user as $user) {
-			$output .= $user -> name . " " . $user -> surname . " (" . $user -> email . ") ";
+			$output .= $user -> name . " " . $user -> surname;
 		}
-		$output .= "</strong>";
+		$output .= "</strong></p>";
 		
 	}
 	if ($lesson -> general_info -> info -> general_description) {
