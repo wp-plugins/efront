@@ -130,7 +130,8 @@ function ef_user_has_course($token, $login, $course_id) {
  * @return boolean true if domain is a valid and eFront domain
  * */
 function ef_is_efront_domain($domain) {
-	return preg_match("/^[a-z0-9-\.]{1,100}\w+$/", $domain) AND ((strpos($domain, 'efrontlearning.net') !== false) OR (strpos($domain, 'efrontlearning.com') !== false));
+	return true;
+	//return preg_match("/^[a-z0-9-\.]{1,100}\w+$/", $domain) AND ((strpos($domain, 'efrontlearning.net') !== false) OR (strpos($domain, 'efrontlearning.com') !== false));
 }
 
 /**
