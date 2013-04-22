@@ -20,13 +20,13 @@ require_once (_BASEPATH_ . '/admin/admin.php');
 
 require_once (_BASEPATH_ . '/widgets/reg_widgets.php');
 
-function start_talentlms_session() {
+function start_efront_session() {
 	if (!session_id()) {
 		session_start();
 	}
 }
 
-add_action('init', 'start_talentlms_session', 1);
+add_action('init', 'start_efront_session', 1);
 
 function install() {
 
