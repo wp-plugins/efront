@@ -53,10 +53,10 @@ if ($_POST['submit']) {
 			}
 
 			if (get_option('ef-post-signup') == 'redirect') {
-				$output .= "<script type='text/javascript'>window.location = '" . get_option('efront-domain') . "'</script>";
+				$output .= "<script type='text/javascript'>window.location = '" . get_option('efront-lib-domain') . "'</script>";
 			} else {
 				$output .= "<div class=\"alert alert-success\">";
-				$output .= "User " . $_POST['login'] . " signed up successfuly. Goto to your learning portal <a target='_blank' href='" . get_option('efront-domain') . "'>" . _('here') . "</a>";
+				$output .= "User " . $_POST['login'] . " signed up successfuly. Goto to your learning portal <a target='_blank' href='" . get_option('efront-lib-domain') . "'>" . _('here') . "</a>";
 				$output .= "</div>";
 			}
 		} catch(Exception $e) {

@@ -76,7 +76,7 @@ class eFront_login extends WP_Widget {
 				}			
 				$output .= "<div class='alert alert-success'>";
 				$output .= "<span style='display:block'>" . _('Welcome back') . "<br /> <b>" . $user -> general_info -> name . "</b></span>";
-				$output .= "<span style='display:block'>" . _('You can visit your learning portal') . " <a target='_blank' href='" . get_option('efront-domain') . "www/index.php?autologin=".$user_autologin_key['autologin_key']."'>" . _('here') . "</a></span>";
+				$output .= "<span style='display:block'>" . _('You can visit your learning portal') . " <a target='_blank' href='" . get_option('efront-lib-domain') . "?autologin=".$user_autologin_key['autologin_key']."'>" . _('here') . "</a></span>";
 				$output .= "</div>";
 				$output .= "<form class='form-horizontal' method='post' action='" . current_page_url() . "'>";
 				$output .= "<input id='ef-login-widget' name='ef-login-widget' type='hidden' value='logout'>";

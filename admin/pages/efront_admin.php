@@ -16,8 +16,8 @@
                     <label for="ef-domain"><?php _e("eFront Domain"); ?> <span class="description">(<?php _e("Required"); ?>)</span>:</label>
                 </th>
                 <td class="form-field form-required <?php echo $domain_validation; ?>">
-                    <input id="ef-domain" name="ef-domain" style="width: 25em;" value="<?php echo get_option('efront-domain'); ?>" />
-                	<span class="description"><?php _e("eFront Domain should not contain http:// or a trailing slash (/)"); ?></span>
+                    <input id="ef-domain" name="ef-domain" style="width: 25em;" value="<?php echo get_option('efront-domain'); ?>" /><br />
+                	<span class="description"><?php _e("eFront domain is your path url to your eFront installation index.php file. It should not contain http://"); ?></span>
                 </td>
             </tr>
             <tr>

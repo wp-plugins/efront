@@ -107,6 +107,10 @@ Here are some screenshots of the eFront WordPress plugin.
 
 == Upgrade Notice ==
 
+= 2.2.5 =
+
+* Setting up eFront domain fixed
+
 = 2.2.3 =
 
 * Changes in single lesson/course layout

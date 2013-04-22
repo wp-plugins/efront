@@ -17,8 +17,9 @@ class eFront {
 		$domain = str_replace('http://', '', $domain);
 		$domain = str_replace('https://', '', $domain);
 
-		self::$domain = $domain;
-		self::$apiBase = 'http://' . $domain . '/www/api2.php';
+		self::$domain = 'http://' . $domain;
+		$pos = strrpos(self::$domain, '/');	
+		self::$apiBase = substr(self::$domain, 0, $pos) . '/api2.php';		
 	}
 
 	/**

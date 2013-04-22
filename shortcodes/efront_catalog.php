@@ -20,7 +20,7 @@ try {
 				$_SESSION['ef-user-password'] = $_POST['ef-password'];				
 				$output .= "<div class='alert alert-success'>";
 				$output .= "<span style='display:block'>" . _('Welcome back') . " <b>" . $user -> general_info -> name . "</b></span>";
-				$output .= "<span style='display:block'>" . _('You can visit your learning portal') . " <a target='_blank' href='" . get_option('efront-domain') . "www/index.php?autologin=".$user_autologin_key['autologin_key']."'>" . _('here') . "</a></span>";
+				$output .= "<span style='display:block'>" . _('You can visit your learning portal') . " <a target='_blank' href='" . get_option('efront-lib-domain') . "?autologin=".$user_autologin_key['autologin_key']."'>" . _('here') . "</a></span>";
 				$output .= "</div>";
 			} catch(Exception $e) {
 				$output .= "<div class=\"alert alert-error\">";
