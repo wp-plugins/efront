@@ -83,7 +83,7 @@ class eFront_login extends WP_Widget {
 				$output .= "<button class='btn' type='submit'>" . _('Logout') . "</button>";
 				$output .= "</form>";
 			} catch (Exception $e) {
-				if ($e instanceof eFront_ApiError) {
+				if ($e instanceof TalentLMS_ApiError) {
 					$output .= $e -> getMessage();
 				}
 			}

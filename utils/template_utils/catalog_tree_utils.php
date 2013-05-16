@@ -72,8 +72,10 @@ function ef_create_catalog_tree_node($node) {
 	if (is_array($node['content'][0]['item'])) {
 		$html .= "<ul id=\"ef-category-contents-" . $node['id'] . "\">";
 		$html .= output_category_content($node);
-		foreach ($node['children'] as $child) {
-			$html .= ef_create_catalog_tree_node($child);
+		if(is_array($node['children'])){
+			foreach ($node['children'] as $child) {
+				$html .= ef_create_catalog_tree_node($child);
+			}			
 		}
 		$html .= "</ul>";
 	} else {

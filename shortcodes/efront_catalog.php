@@ -71,8 +71,10 @@ try {
 			if ($_GET['category'] == 'all' || !$_GET['category']) {
 				$courses_lessons = array();
 				foreach ($categories['categories'][0]['category'] as $category) {
-					foreach ($category['content'][0]['item'] as $item) {
-						$courses_lessons[] = $item;
+					if(is_array($category['content'][0])){
+						foreach ($category['content'][0]['item'] as $item) {
+							$courses_lessons[] = $item;
+						}
 					}
 				}
 			} else {

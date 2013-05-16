@@ -3,13 +3,13 @@
  Plugin Name: eFront
  Plugin URI:
  Description: This plugin integrates <a href="http://www.efrontlearning.net/">eFront</a> with Wordpress. Promote your eFront content through your WordPress site.
- Version: 2.2.5
+ Version: 2.2.6
  Author: Vasilis Proutzos / Epignosis LTD
  Author URI: http://www.efrontlearning.net/
  License: GPL2
  */
 
-define("_VERSION_", "2.2.5");
+define("_VERSION_", "2.2.6");
 define("_BASEPATH_", dirname(__FILE__));
 define("_BASEURL_", plugin_dir_url(__FILE__));
 
@@ -20,13 +20,13 @@ require_once (_BASEPATH_ . '/admin/admin.php');
 
 require_once (_BASEPATH_ . '/widgets/reg_widgets.php');
 
-function start_efront_session() {
+function start_talentlms_session() {
 	if (!session_id()) {
 		session_start();
 	}
 }
 
-add_action('init', 'start_efront_session', 1);
+add_action('init', 'start_talentlms_session', 1);
 
 function install() {
 

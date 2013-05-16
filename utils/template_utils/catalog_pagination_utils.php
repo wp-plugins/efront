@@ -91,11 +91,12 @@ function ef_build_categories_tree($categories) {
 }
 
 function ef_create_tree_node($node) {
-	
-	if(is_array($node['content'][0]['item'])){
-		$num_of_items = " (" . count($node['content'][0]['item']) . ")";
-	} else {
-		$num_of_items = "";
+	if(is_array($node['content'][0])){
+		if(is_array($node['content'][0]['item'])){
+			$num_of_items = " (" . count($node['content'][0]['item']) . ")";
+		} else {
+			$num_of_items = "";
+		}
 	}
 	$html = "<li>" . "<a href=\"?category=" . $node['id'] . "\">" . $node['name'] . "</a> " . $num_of_items;
 	if (is_array($node['children'])) {
@@ -157,11 +158,21 @@ function ef_build_units_tree($units) {
 	}
 
 	$html = "<ul class=\"nav nav-list\">";
-	foreach ($units[0]['children'] as $node) {
-		if (!$node['parent_id']) {
-			$html .= ef_create_tree_node_units($node);
+	
+	if($units[0]['children']) {
+		foreach ($units[0]['children'] as $node) {	
+			if (!$node['parent_id']) {
+				$html .= ef_create_tree_node_units($node);
+			}
+		}
+	} else {
+		foreach ($units[0] as $node) {	
+			if (!$node['parent_id']) {
+				$html .= ef_create_tree_node_units($node);
+			}
 		}
 	}
+		
 	$html .= "</ul>";
 
 	return $html;	

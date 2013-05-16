@@ -107,6 +107,10 @@ Here are some screenshots of the eFront WordPress plugin.
 
 == Upgrade Notice ==
 
+= 2.2.6 =
+
+* eFront WP plugin compatible with PHP 4.3.x
+
 = 2.2.5 =
 
 * Setting up eFront domain fixed
