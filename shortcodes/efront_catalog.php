@@ -86,8 +86,10 @@ try {
 				}
 
 				$courses_lessons = array();
-				foreach ($category['category'][0]['content'][0]['item' ] as $item) {
-					$courses_lessons[] = $item;
+				if(isset($category['category'][0]['content'][0]['item' ])) {					
+					foreach ($category['category'][0]['content'][0]['item' ] as $item) {
+						$courses_lessons[] = $item;
+					}
 				}
 			}
 			// Setup pagination

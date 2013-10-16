@@ -2,7 +2,7 @@
 Contributors: V.
 Tags: eFront, elearning, lms, lcms, hcm, learning management system
 Requires at least: 1.5
-Tested up to: 3.5.1
+Tested up to: 3.6.1
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -106,6 +106,10 @@ Here are some screenshots of the eFront WordPress plugin.
 * Caching
 
 == Upgrade Notice ==
+
+= 2.2.8 =
+
+* eFront WP plugin compatible with PHP older version
 
 = 2.2.6 =
 
