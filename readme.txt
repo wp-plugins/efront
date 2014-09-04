@@ -107,6 +107,10 @@ Here are some screenshots of the eFront WordPress plugin.
 
 == Upgrade Notice ==
 
+= 2.2.9 =
+
+* Fixed login link when taking a lesson
+
 = 2.2.8 =
 
 * eFront WP plugin compatible with PHP older version
