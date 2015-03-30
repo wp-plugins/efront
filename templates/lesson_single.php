@@ -6,7 +6,7 @@ if(!$_SESSION['ef-user-login'] && !$_SESSION['ef-user-password']){
 } else {
 	if ($lesson -> general_info -> price -> value == 0){
 		if(ef_user_has_lesson($token, $_SESSION['ef-user-login'], $_GET['lesson'])){
-			$user_autologin_key = eFront_User::getAutologinKey($token, $_SESSION['ef-user-login']);
+			$user_autologin_key = eFront_User::getAutologinKey($token, $_SESSION['ef-user-login'], $_SESSION['ef-user-password']);
 			$output .= "<a target='_blank' href='" . get_option('efront-lib-domain') . '?autologin='.$user_autologin_key->autologin_key.'&lessons_ID='.$_GET['lesson'] . "'>" . __('Take lesson') . "</a> " . _('or') . " <a href='javascript:history.go(-1);'>" . _('Go Back') . "</a>";
 		} else {	
 			$output .= "<a id='ef-get-lesson' href='javascript:void(0);'>" . __('Get this lesson') . "</a> " . _('or') . " <a href='javascript:history.go(-1);'>" . _('Go Back') . "</a>";

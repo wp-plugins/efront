@@ -69,10 +69,10 @@ class eFront_login extends WP_Widget {
 				$token = eFront::requestToken();
 				eFront::loginModule($token, get_option('efront-admin-username'), get_option('efront-admin-password'));
 				$user = eFront_User::getInfo($token, $_SESSION['ef-user-login']);
-				$user_autologin_key = xml2array(eFront_User::getAutologinKey($token, $_SESSION['ef-user-login']));
+				$user_autologin_key = xml2array(eFront_User::getAutologinKey($token, $_SESSION['ef-user-login'], $_SESSION['ef-user-password']));
 				if(!$user_autologin_key['autologin_key']){
 					eFront_User::setAutologinKey($token, $_SESSION['ef-user-login']);
-					$user_autologin_key = xml2array(eFront_User::getAutologinKey($token, $_SESSION['ef-user-login']));
+					$user_autologin_key = xml2array(eFront_User::getAutologinKey($token, $_SESSION['ef-user-login'], $_SESSION['ef-user-password']));
 				}			
 				$output .= "<div class='alert alert-success'>";
 				$output .= "<span style='display:block'>" . _('Welcome back') . "<br /> <b>" . $user -> general_info -> name . "</b></span>";

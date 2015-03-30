@@ -213,8 +213,8 @@ class eFront_User extends eFront {
 	 * @param string $login the login of the corresponding user
 	 * @return string|eFront_ApiError the user's autologin key
 	 * */	
-	public static function getAutologinKey($token, $login){
-		$xml_response = simplexml_load_file(self::$apiBase . "?action=get_user_autologin_key" . "&token=" . $token . "&login=" . $login);
+	public static function getAutologinKey($token, $login, $password){
+		$xml_response = simplexml_load_file(self::$apiBase . "?action=get_user_autologin_key" . "&token=" . $token . "&login=" . $login . "&password=" . $password);
 		if ($xml_response -> status == 'error') {
 			throw new eFront_ApiError($xml_response -> message);
 		} else {

@@ -10,10 +10,10 @@ try {
 			try {
 				eFront::login($token, $_POST['ef-login']);
 				$user = eFront_User::getInfo($token, $_POST['ef-login']);
-				$user_autologin_key = xml2array(eFront_User::getAutologinKey($token, $_POST['ef-login']));
+				$user_autologin_key = xml2array(eFront_User::getAutologinKey($token, $_POST['ef-login'], $_POST['ef-password']));
 				if(!$user_autologin_key['autologin_key']){
 					eFront_User::setAutologinKey($token, $_POST['ef-login']);
-					$user_autologin_key = xml2array(eFront_User::getAutologinKey($token, $_POST['ef-login']));
+					$user_autologin_key = xml2array(eFront_User::getAutologinKey($token, $_POST['ef-login'], $_POST['ef-password']));
 				}			
 				session_start();
 				$_SESSION['ef-user-login'] = $_POST['ef-login'];

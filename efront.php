@@ -9,7 +9,7 @@
  License: GPL2
  */
 
-define("_VERSION_", "2.2.9");
+define("_VERSION_", "2.3");
 define("_BASEPATH_", dirname(__FILE__));
 define("_BASEURL_", plugin_dir_url(__FILE__));
 

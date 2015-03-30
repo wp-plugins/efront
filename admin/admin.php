@@ -196,7 +196,7 @@ function ef_get_course_callback() {
 		$token = eFront::requestToken();
 		eFront::loginModule($token, get_option('efront-admin-username'), get_option('efront-admin-password'));
 		eFront_Course::assignToUser($token, $_POST['ef_login'], $_POST['course_id'], 'student');
-		$user_autologin_key = eFront_User::getAutologinKey($token, $_POST['ef_login']);
+		$user_autologin_key = eFront_User::getAutologinKey($token, $_POST['ef_login'], $_POST['ef_password']);
 		$course_lessons = eFront_Course::getCourseLessons($token, $_POST['course_id']);		
 		$return_data = array('status' => 'ok', 'url' => get_option('efront-lib-domain') . '?autologin=' . $user_autologin_key -> autologin_key . '&lessons_ID=' . $course_lessons -> lessons -> lesson[0] -> id);
 		echo json_encode($return_data);
@@ -216,7 +216,7 @@ function ef_get_lesson_callback() {
 		$token = eFront::requestToken();
 		eFront::loginModule($token, get_option('efront-admin-username'), get_option('efront-admin-password'));
 		eFront_Lesson::assignToUser($token, $_POST['ef_login'], $_POST['lesson_id'], '');
-		$user_autologin_key = eFront_User::getAutologinKey($token, $_POST['ef_login']);
+		$user_autologin_key = eFront_User::getAutologinKey($token, $_POST['ef_login'], $_POST['ef_password']);
 		$return_data = array('status' => 'ok', 'url' => get_option('efront-lib-domain') . '?autologin=' . $user_autologin_key -> autologin_key . '&lessons_ID=' . $_POST['lesson_id']);
 		echo json_encode($return_data);
 	} catch (Exception $e) {
