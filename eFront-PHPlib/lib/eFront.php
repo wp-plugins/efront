@@ -78,6 +78,16 @@ class eFront {
 		}
 	}
 
+	public static function checkPassword($token, $login, $password) {
+		$xml_response = simplexml_load_file(self::$apiBase . "?action=checkpassword" . "&token=" . $token . "&login=" . $login . "&password=" . $password);
+		if ($xml_response -> status == 'error') {
+			throw new eFront_ApiError($xml_response -> message);
+		} else {
+			return $xml_response -> status;
+		}		
+	}
+	
+	
 	/**
 	 * Logout from platform (eFront)
 	 *

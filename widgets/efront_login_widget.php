@@ -51,6 +51,7 @@ class eFront_login extends WP_Widget {
 					$token = eFront::requestToken();
 					eFront::loginModule($token, get_option('efront-admin-username'), get_option('efront-admin-password'));
 					eFront::login($token, $_POST['ef-login']);
+					eFront::checkPassword($token, $_POST['ef-login'], $_POST['ef-password']);
 					session_start();
 					$_SESSION['ef-user-login'] = $_POST['ef-login'];
 					$_SESSION['ef-user-password'] = $_POST['ef-password'];
